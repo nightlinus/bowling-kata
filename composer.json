@@ -1,0 +1,22 @@
+{
+  "name": "nightlinus/bowling-kata1",
+  "description": "kata",
+  "type": "project",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "nightlinus",
+      "email": "m.a.ogarkov@gmail.com"
+    }
+  ],
+  "autoload": {
+    "Nightlinus\\Bowling\\": "src"
+  },
+  "require": {
+    "php": "^7.3"
+  },
+  "require-dev": {
+    "roave/security-advisories": "dev-master",
+    "phpunit/phpunit": "^8.3"
+  }
+}
