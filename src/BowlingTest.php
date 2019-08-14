@@ -14,9 +14,27 @@ class BowlingTest extends TestCase
     }
 
     /** @test */
+    public function it_calculates_scores_for_3_strike_game()
+    {
+        $this->assertScoresEquals('- - - - - - - - - X X X', 30);
+    }
+
+    /** @test */
     public function it_calculates_scores_for_10_strike_game()
     {
         $this->assertScoresEquals('X X X X X X X X X X - -', 270);
+    }
+
+    /** @test */
+    public function it_calculates_scores_for_11_strike_game()
+    {
+        $this->assertScoresEquals('X X X X X X X X X X X -', 290);
+    }
+
+    /** @test */
+    public function it_calculates_scores_for_11_strike_game_2()
+    {
+        $this->assertScoresEquals('X X X X X X X X X X - X', 280);
     }
 
     /** @test */
@@ -58,7 +76,7 @@ class BowlingTest extends TestCase
     private function assertScoresEquals(string $game, int $expected)
     {
         $bowling = new Bowling();
-        $score = $bowling->calculate($game);
+        $score = $bowling->calculate_like_a_pro($game);
 
         $this->assertEquals($expected, $score);
     }

@@ -86,4 +86,59 @@ final class Bowling
 
         return $currentScore;
     }
+
+    /* Более длинный, но более понятный способ подсчета */
+    public function calculate_like_a_pro(string $scores): int
+    {
+        $scores = str_replace('-', '0', $scores);
+        $frames = explode(' ', $scores);
+        $balls = [];
+        foreach ($frames as $i => $frame) {
+            [ $first, $strike ] = $this->firstBall($frame[ 0 ], $i);
+            $balls[] = Ball::from($first, $i + 1, $strike, false);
+            if (isset($frame[ 1 ])) {
+                [ $second, $spare ] = $this->secondBall($frame[ 1 ], $first, $i);
+                $balls[] = Ball::from($second, $i + 1, false, $spare);
+            }
+        }
+
+        $total = 0;
+        /** @var $balls Ball[] */
+        foreach ($balls as $i => $ball) {
+            if ($ball->frame() <= 10) {
+                $total += $ball->score();
+            }
+            if ($ball->isSpare()) {
+                $next = $balls[ $i + 1 ]->score() ?? 0;
+                $total += $next;
+            }
+            if ($ball->isStrike()) {
+                $next = $balls[ $i + 1 ]->score() ?? 0;
+                $nextnext = $balls[ $i + 2 ]->score() ?? 0;
+                $total += $next + $nextnext;
+            }
+
+            $total += 0;
+        }
+
+        return $total;
+    }
+
+    private function firstBall(string $score, int $i): array
+    {
+        if ($score === 'X') {
+            return [ 10, $i < 10 ];
+        }
+
+        return [ (int) $score, false ];
+    }
+
+    private function secondBall(string $score, int $first, int $i): array
+    {
+        if ($score === '/') {
+            return [ 10 - $first, $i < 10 ];
+        }
+
+        return [ (int) $score, false ];
+    }
 }
